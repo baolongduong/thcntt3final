@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Nhom 01</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    {{!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="table.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+     
+            <h1 style="color: #fff; font-family: 'Anton', sans-serif; font-size: 50px;">Heartbeat Table</h1>
+ 
+    
+     <div class="container">
+       <div class="row">
+           <div class="col-lg-1">
+           </div>
+             <div class="col-lg-10">
+                  {{{body}}}
+           </div>
+             <div class="col-lg-1">
+           </div>
+   
+      </div>
+    </div>
+
+
+    <h1 style="color: #fff; font-family: 'Anton', sans-serif; font-size: 30px;">Thực hành CNTT 03</h1>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+var  age = "";
+var name = "";
+
+
+ function initChart() {
+                var chart1 = new CanvasJS.Chart("chartContainerTemperature" + id, {
+                    animationEnabled: true,
+                    title: {
+                        text: "Benh nhan " + id
+                    },
+                    data: [{
+                        type: "spline",
+                        dataPoints: [
+                            { label: '0', y: 0 },
+                            { label: '1', y: 0 },
+                            { label: '2', y: 0 },
+                            { label: '3', y: 0 },
+                            { label: '4', y: 0 },
+                            { label: '5', y: 0 },
+                            { label: '6', y: 0 },
+                            { label: '7', y: 0 },
+                            { label: '8', y: 0 },
+                            { label: '9', y: 0 },
+                            { label: '10', y: 0 },
+                            { label: '11', y: 0 },
+                            { label: '12', y: 0 },
+                        ]
+                    }]
+                });
+                return chart1;
+            }
+          
+function updateChart_json(chartitem, farmid) {
+
+                var dps = chartitem.options.data[0].dataPoints;
+                console.log("dps", dps);
+                $.ajax({
+                    type: 'GET',
+                    contentType: "application/json",
+                    dataType: 'json',
+                    url:
+                        'http://localhost/4200/mixdata',
+                    success: function (data) {
+                        var deltaY, yVal;
+
+                        $.each(data, function (i, item) {
+                            console.log(i);
+                            console.log(item.heartrate);
+                            dps[i].y = item.heartrate;
+                            deltaY = (1 + Math.random() * (-1 - 1)) * 0.1 *
+                                item.heartrate;
+                            yVal = deltaY + dps[i].y > 0 ? dps[i].y + deltaY : 0;
+                            dps[i].y = yVal;
+                        })
+                    }
+                    ,
+                    error: function (data) {
+                        //alert("error-update");
+                    }
+                });
+                chartitem.options.data[0].dataPoints = dps;
+                chartitem.render();
+            }
+
+
+function loadFarms() {
+    $.ajax({
+        type: 'GET',
+        contentType: "application/json",
+        dataType: 'json',
+        url: 'http://localhost:4200/mixdata',
+        success: function (data) {
+            var str = "";
+            $.each(data, function (i, item) {
+                str +=   '<tr style=" text-align: center; font-family: Verdana, Geneva, Tahoma, sans-serif;    font-size: 25px;"> ';
+                str +=   '<td>'+item.username+'</td>';
+                str +=   '<td>'+item.age+'</td>';
+                 str +=   '<td>'+item.heartrate+'</td>';
+                str +=   '<td> <a href="user/'+item.id+'">Đo nhịp</td>';
+                str += '</tr>'
+            })
+            console.log(data);
+            $("#dsbenhnhan").html(str);
+           
+           var chart_list = []
+                        var chart_list_farmid = []
+                        $.each(data, function (i, item) {
+                            var chart = initChart(item.id);
+                            chart_list.push(chart)
+                            chart_list_farmid.push(item.id)
+                            console.log(chart_list)
+                        })
+                        //updateChart
+                        $.each(chart_list, function (i, item) {
+                            updateChart_json(item, chart_list_farmid[i])
+                            setInterval(function () {
+                                updateChart_json(item,
+                                    chart_list_farmid[i])
+                            }, 2000);
+                        })
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+            
+})
+                }
+            
+
+function handleSubmit()
+        {
+             var tempage = ""; 
+            name = document.getElementById("Name1").textContent;
+            sessionStorage.setItem('Name', name);
+             age = document.getElementById("Age1").textContent;
+             sessionStorage.setItem('Age', age);
+         console.log("asd" + age);
+        }
+function handleSubmit2()
+        {
+             var tempage = "";
+             name = document.getElementById("Name2").textContent;
+             sessionStorage.setItem('Name', name);
+             age = document.getElementById("Age2").textContent;
+             
+           sessionStorage.setItem('Age', age);
+           
+            console.log("asd" + age);
+        }
+function handleSubmit3()
+        {
+             var tempage = "";
+             name = document.getElementById("Name3").textContent;
+             sessionStorage.setItem('Name', name);
+             age = document.getElementById("Age3").textContent;
+           sessionStorage.setItem('Age', age);
+            console.log("asd" + age);
+        }
+ 
+ window.addEventListener('load', () => {
+
+   $(document).ready(function() {
+                loadFarms();
+              });
+
+              
+            // Via Query parameters - GET
+            /* const params = (new URL(document.location)).searchParams;
+            const name = params.get('name');
+            const surname = params.get('surname'); */
+        
+            // Via local Storage
+            /* const name = localStorage.getItem('NAME');
+            const surname = localStorage.getItem('SURNAME'); */
+            empName = sessionStorage.getItem('Name');
+            document.getElementById('result-name').innerHTML = empName;
+            empAge = sessionStorage.getItem('Age');
+            document.getElementById('result-age').innerHTML = empAge;
+            if (empAge < 30 ){
+                document.getElementById('user').src = 'https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg';
+            }else{
+                document.getElementById('user').src = 'https://png.pngtree.com/png-vector/20190803/ourlarge/pngtree-avatar-user-basic-abstract-circle-background-flat-color-icon-png-image_1647265.jpg';
+            }
+        
+        })
+
+
+
+window.onload = function() {
+
+  };
+      
+
+</script>
+</html> 
+
+
+
