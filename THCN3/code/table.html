@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+    <script src="table.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Table</title>
+    <link rel="stylesheet" href="table.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c6d2f550f6.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="/Scripts/html5shiv.min.js"></script>
+    <script src="/Scripts/respond.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<style>
+  
+</style>
+
+<body>
+
+    <h1>Heartbeat Table</h1>
+    <table id = "table">
+        <tbody>
+    
+        <tr id="header">
+            <th>Name</th>
+            <th>Age</th>
+            <th>Heartbeat(bpm)</th>
+            
+        </tr>
+       
+        <tr class="table-row1">
+                <td onclick="handleSubmit()"> <a id="Name1" href="user.html">John</a></td>
+                <td onclick="handleSubmit()"><a id="Age1" href="user.html">25</a></td>
+                <td onclick="getallid()"></td>
+              
+        </tr>
+
+        <tr class="table-row2" data-href="user.html">
+            <td onclick="handleSubmit2()"><a id="Name2" href="user.html">David</a>  </td>
+            <td  onclick="handleSubmit2()"><a id="Age2" href="user.html">55</a> </td>
+            <td></td>
+         
+
+        </tr>
+        <tr class="table-row3" data-href="user.html">
+            <td onclick="handleSubmit3()"><a id="Name3" href="user.html">Cherry</a> </td>
+            <td onclick="handleSubmit3()"><a id="Age3" href="user.html">26</a> </td>
+            <td> </td>      
+        </tr>
+    
+     
+
+       </tbody>
+    </table>
+    
+    
+</body>
+
+
+<script>
+   
+
+</script>
